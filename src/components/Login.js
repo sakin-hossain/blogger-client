@@ -1,8 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+    const [isRegistered, setIsRegistered] = useState(false)
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [image, setImage] = useState(null);
+    const { signInWithGoogle, registerUser, loginUser } = useAuth();
+    const navigate = useNavigate();
+
+    const checkedIsLogin = e => {
+        setIsRegistered(e.target.checked)
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('image', image);
+        loginUser(email, password, navigate);
+        registerUser(email, password, name, navigate);
+
+        fetch('http://localhost:5000/users',{
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => console.log(data.insertedId))
+      };
     return (
         <Container>
             <Nav>
@@ -20,7 +50,42 @@ const Login = () => {
                     <img src="/images/login-section.png" alt="login banner" />
                 </Hero>
                 <Form>
-                    <Google>
+                <form onSubmit={handleSubmit}>
+                    {
+                        isRegistered && <>
+                        <label>Name</label>
+                        <Input
+                            onChange={(e)=> setName(e.target.value)}
+                        /> <br />
+                        </>
+                    }
+                    <label>Email</label>
+                    <Input
+                        onChange={(e)=> setEmail(e.target.value)}
+                    /> <br />
+                    <label>Password</label>
+                    <Input 
+                        onChange={(e)=> setPassword(e.target.value)}
+                        type="password"/> <br />
+                    {
+                        isRegistered && 
+                        <label htmlFor="contained-button-file">
+                            <InputPhoto accept="image/*" id="contained-button-file" 
+                            onChange={(e)=> setImage(e.target.files[0])}
+                            type="file" />
+                            <Button sx={{width: "100%", margin:"10px 0", color:"black", border:"1.5px solid rgba(0,0,0,0.6)"}}
+                            variant="outlined" component="span">
+                            Upload your photo
+                            </Button>
+                        </label>
+                    }
+                    <input onClick={checkedIsLogin} type="checkbox" id="registered"/>
+                    <label htmlFor="registered"> Not Registered ? Please click for register</label><br/>
+                    {
+                        isRegistered ? <input style={AuthButton} value="Register" type="submit" /> : <input style={AuthButton} value="Login" type="submit" />
+                    }
+                </form>
+                    <Google onClick={signInWithGoogle}>
                         <img src="/images/google.svg" alt="google icon" />
                         Sign in with Google
                     </Google>
@@ -142,6 +207,31 @@ const Form = styled.div`
         margin-top: 20px;
     }
 `;
+const Input = styled.input`
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px 0;
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 60%),
+    inset 0 0 0 2px rgb(0 0 0 / 0%) inset 0 0 0 1px rgb(0 0 0 / 0);
+    border: 1.5px solid rgba(0,0,0,0.6);
+`;
+const InputPhoto = styled('input')({
+    display: 'none',
+  });
+const AuthButton = {
+    width: "100%",
+    border: "1.5px solid rgba(0,0,0,0.6)",
+    outline: "none",
+    background: "transparent",
+    padding: "10px 24px",
+    borderRadius: "24px",
+    margin: "10px 0",
+    fontSize: "16px",
+    color: "rgba(0, 0, 0, 0.6)",
+    fontWeight: "600",
+    cursor: "pointer"
+}
 const Google = styled.button`
     display: flex;
     justify-content: center;
@@ -156,6 +246,7 @@ const Google = styled.button`
     z-index: 0;
     transition-duration: 167ms;
     font-size: 20px;
+    cursor: pointer;
     border: 1.5px solid rgba(0,0,0,0.6);
     color: rgba(0, 0, 0, 0.6);
     &:hover {

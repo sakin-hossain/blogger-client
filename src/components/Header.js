@@ -2,8 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import useAuth from '../hooks/useAuth';
+import useUser from '../hooks/useUser';
 
 const Header = () => {
+  const {user, logOut} = useAuth();
+  const { activeUser } = useUser();
     return (
         <Container>
             <Content>
@@ -17,18 +21,20 @@ const Header = () => {
                         <input type="text" placeholder='Search' />
                     </div>
                     <SearchIcon>
-                        <img src="/images/search-icon.svg" alt="search logo" />
+                    <img src="/images/search-icon.svg" alt="search logo" />
                     </SearchIcon>
                 </Search>
                 <User>
                     <a>
-                        <img src="/images/user.svg" alt="" />
-                        <span>Me</span>
+                        {
+                          user ? <img src={`data:image/png;base64,${activeUser?.image}`} alt="" /> : <img src="/images/user.png" alt="" />
+                        }
+                        <span>{activeUser?.name}</span>
                         <img src="/images/down-icon.svg" alt="" />
                     </a>
 
                     <SignOut>
-                        <button>Sign Out</button>
+                        <button onClick={logOut}>Sign Out</button>
                     </SignOut>
                 </User>
             </Content>
