@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import useAuth from '../hooks/useAuth';
@@ -17,15 +18,14 @@ const Comment = ({id}) => {
     }
     const handleComment = (comment) => {
         const comments = {
-            postId:id,
             user: user.displayName,
             email: user.email,
             comment: comment,
             date: new Date()
         }
-        console.log(comments);
+        axios.put(`http://localhost:5000/post/${id}`, comments)
+        .then(res => console.log(res))
     }
-
     return (
         <Container>
             <input type="text" onChange={e => setComment(e.target.value)} placeholder='Comment' />

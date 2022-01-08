@@ -6,6 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 import usePosts from '../hooks/usePosts';
 import Comment from './Comment';
+import CommentShow from './CommentShow';
 import PostCard from './PostCard';
 
 const Main = () => {
@@ -61,10 +62,11 @@ const Main = () => {
                             </button>
                             </SocialAction>
                             <Comment id={post._id}/>
+                            <CommentShow comments={post.comments}/>
                     </Article>
                     )
             }
-            <button onClick={handleLoadMore}>Load More</button>
+            <Load onClick={handleLoadMore}>Load More</Load>
         </Container>
     );
 };
@@ -186,5 +188,14 @@ export const SocialAction = styled.div`
         }
     }
 `;
+const Load = styled.button`
+    margin: 10px 0;
+    padding: 10px 24px;
+    border: 1.5px solid rgba(0,0,0,0.5);
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+`;
+const CommentArea = styled.div``
 
 export default Main;

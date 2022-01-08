@@ -6,7 +6,6 @@ const usePosts = () => {
     const [posts, setPosts] = useState([]);
     const [activeUserPosts, setActiveUserPosts] = useState([]);
     const [size, setSize] = useState(10);
-
     const {user} = useAuth();
     
     const handlePost = (posts, title) => {
@@ -16,20 +15,21 @@ const usePosts = () => {
             date: new Date(),
             title: title,
             post: posts,
+            comments : []
         }
         axios.post('http://localhost:5000/posts', post)
         .then(res => {
             if (res.data.acknowledged) {
-                console.log('done');
+                alert('Post successfully');
             }
         })
     }
     let postPerPage = 10;
     useEffect(()=>{
-        fetch(`http://localhost:5000/posts`)
+        fetch(`http://localhost:5000/posts?size=${size}`)
         .then(res => res.json())
-        .then(data => setPosts(data))
-    }, []);
+        .then(data => {setPosts(data)})
+    }, [size, posts]);
 
     useEffect(()=>{
         fetch(`http://localhost:5000/posts/${user.email}`)
@@ -38,7 +38,7 @@ const usePosts = () => {
     }, [user.email]);
 
     const handleLoadMore = () =>{
-        setSize(size + postPerPage);
+        setSize(parseInt(size) + postPerPage);
     }
 
     return { handlePost, posts, activeUserPosts, handleLoadMore }

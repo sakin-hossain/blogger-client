@@ -16,14 +16,6 @@ const Header = () => {
                         <h6>Blogger</h6>
                     </Link>
                 </Logo>
-                <Search>
-                    <div>
-                        <input type="text" placeholder='Search' />
-                    </div>
-                    <SearchIcon>
-                    <img src="/images/search-icon.svg" alt="search logo" />
-                    </SearchIcon>
-                </Search>
                 <User>
                     <a>
                         {
@@ -55,6 +47,7 @@ const Container = styled.div`
 const Content = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 0 auto;
   min-height: 100%;
 `;
@@ -70,47 +63,11 @@ const Logo = styled.span`
       color: initial;
   }
 `;
-const Search = styled.div`
-  opacity: 1;
-  flex-grow: 0.95;
-  position: relative;
-  & > div {
-    max-width: 280px;
-    input {
-      border: none;
-      box-shadow: none;
-      background-color: #eef3f8;
-      border-radius: 2px;
-      color: rgba(0, 0, 0, 0.9);
-      width: 218px;
-      padding: 0 8px 0 40px;
-      line-height: 1.75;
-      font-weight: 400;
-      font-size: 14px;
-      height: 34px;
-      border-color: #dce6f1;
-      vertical-align: text-top;
-    }
-  }
-`;
-const SearchIcon = styled.div`
-  width: 40px;
-  position: absolute;
-  z-index: 1;
-  top: 10px;
-  left: 2px;
-  border-radius: 0 2px 2px 0;
-  margin: 0;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const SignOut = styled.div`
   position: absolute;
   top: 48px;
-  right: 55px;
+  right: 45px;
   background: white;
   border-radius: 0 0 5px 5px;
   width: 100px;
@@ -119,12 +76,16 @@ const SignOut = styled.div`
   transition-duration: 167ms;
   text-align: center;
   display: none;
-
+  font-weight: 700;
+  background-color: rgb(30,20,10);
   button{
       border: none;
       outline: none;
       background: transparent;
       font-size: 14px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
   }
 `;
 
@@ -141,6 +102,7 @@ const User = styled.div`
     min-height: 52px;
     min-width: 80px;
     position: relative;
+    right: 50px;
     text-decoration: none;
     }
     a > svg {
