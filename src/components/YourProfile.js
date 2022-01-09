@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import usePosts from '../hooks/usePosts';
 import useUser from '../hooks/useUser';
+import Comment from './Comment';
+import CommentShow from './CommentShow';
 import Header from './Header';
 import { Article, Description, SharedActor, SocialAction, SocialCount } from './Main';
 import PostCard from './PostCard';
@@ -18,7 +20,7 @@ const YourProfile = () => {
     const handlePostDelete = (id) =>{
         const proceed = window.confirm('Are you sure? Delete this post ?');
         if(proceed){
-            axios.delete(`http://localhost:5000/post/${id}`)
+            axios.delete(`https://serene-garden-66797.herokuapp.com/post/${id}`)
             .then(res => {
                 if (res.data.acknowledged) {
                     alert('Delete Successful!')
@@ -48,7 +50,7 @@ const YourProfile = () => {
                                         <span>{post?.date}</span>
                                     </div>
                                 </a>
-                                <div>
+                                <Action>
                                     <button onClick={() => handlePostDelete(post._id)}>
                                         <DeleteRoundedIcon/>
                                     </button>
@@ -57,9 +59,10 @@ const YourProfile = () => {
                                             <ModeEditOutlineIcon/>
                                         </button>
                                     </Link>
-                                </div>
+                                </Action>
                             </SharedActor>
                             <Description>
+                                <h3>{post.title}</h3>
                                 {post.post}
                             </Description>
                             <SocialCount>
@@ -88,6 +91,8 @@ const YourProfile = () => {
                                     <span>Comment</span>
                                 </button>
                             </SocialAction>
+                            <Comment id={post._id}/>
+                            <CommentShow comments={post.comments}/>
                         </Article>
                         )
                     }
@@ -115,6 +120,13 @@ export const UserInfo = styled.div`
         padding: 5px;
         margin: 15px 0;
         border: 2px solid rgba(0,0,0,0.5);
+    }
+`
+const Action = styled.div`
+    display: flex;
+    align-items: center;
+    a{
+        padding: 30px 0;
     }
 `
 export default YourProfile;

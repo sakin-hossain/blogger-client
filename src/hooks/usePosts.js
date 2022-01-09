@@ -17,7 +17,7 @@ const usePosts = () => {
             post: posts,
             comments : []
         }
-        axios.post('http://localhost:5000/posts', post)
+        axios.post('https://serene-garden-66797.herokuapp.com/posts', post)
         .then(res => {
             if (res.data.acknowledged) {
                 alert('Post successfully');
@@ -26,13 +26,13 @@ const usePosts = () => {
     }
     let postPerPage = 10;
     useEffect(()=>{
-        fetch(`http://localhost:5000/posts?size=${size}`)
+        fetch(`https://serene-garden-66797.herokuapp.com/posts?size=${size}`)
         .then(res => res.json())
         .then(data => {setPosts(data)})
     }, [size, posts]);
 
     useEffect(()=>{
-        fetch(`http://localhost:5000/posts/${user.email}`)
+        fetch(`https://serene-garden-66797.herokuapp.com/posts/${user.email}`)
         .then(res=> res.json())
         .then(data => setActiveUserPosts(data))
     }, [user.email]);

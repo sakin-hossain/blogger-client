@@ -11,15 +11,15 @@ const EditPost = () => {
     
     const handleEdit = (title, post) => {
         console.log(title,post);
-        axios.put(`https://serene-garden-66797.herokuapp.com/post/${id}`, {
+        axios.put(`https://serene-garden-66797.herokuapp.com/posts`, {
+            id: id,
             title: title,
             post: post
         })
         .then(res => {
-            if (res.data.acknowledged) {
-                alert("Status updated")
-            }
-        })
+            if (res.data.modifiedCount) {
+                alert("Edited successful");
+            }})
     }
 
     return (

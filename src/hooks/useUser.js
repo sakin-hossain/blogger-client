@@ -7,13 +7,13 @@ const useUser = () => {
     const [activeUser, setActiveUser] = useState({});
 
     useEffect(()=>{
-        fetch('http://localhost:5000/users')
+        fetch('https://serene-garden-66797.herokuapp.com/users')
         .then(res=> res.json())
         .then(data => setUsers(data.result))
     }, [user]);
 
     useEffect(()=>{
-        fetch(`http://localhost:5000/users/${user.email}`)
+        fetch(`https://serene-garden-66797.herokuapp.com/users/${user.email}`)
         .then(res=> res.json())
         .then(data => setActiveUser(data))
     }, [user.email]);

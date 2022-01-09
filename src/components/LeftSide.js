@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import useAuth from '../hooks/useAuth';
 import useUser from '../hooks/useUser';
@@ -14,9 +15,11 @@ const LeftSide = () => {
                 <CardBackground />
                     <p>
                         <Photo />
-                        <Link>Welcome, {activeUser?.name}!</Link>
+                        <Title>Welcome, {activeUser?.name}!</Title>
                     </p>
                 </UserInfo>
+                <Link to={'/profile'}>Your Profile</Link> <br />
+                <Link to={'/alluser'}>All User Data</Link>
             </ArtCard>
         </Container>
     );
@@ -34,6 +37,11 @@ const ArtCard = styled.div`
   position: relative;
   border: none;
   box-shadow: 0 0 0 1px rgb(0 0 0 / 15%), 0 0 0 rgb(0 0 0 / 20%);
+  a{
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+  }
 `;
 const UserInfo = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -42,7 +50,7 @@ const UserInfo = styled.div`
   word-break: break-word;
 `;
 const CardBackground = styled.div`
-  background: url("/images/card-bg.svg");
+  background: url("/images/card-bg.png");
   background-position: center;
   background-size: 462px;
   height: 54px;
@@ -50,7 +58,7 @@ const CardBackground = styled.div`
 `;
 const Photo = styled.div`
   box-shadow: none;
-  background-image: url("/images/photo.svg");
+  background-image: url("/images/user.png");
   width: 72px;
   height: 72px;
   box-sizing: border-box;
@@ -63,7 +71,7 @@ const Photo = styled.div`
   margin: -38px auto 12px;
   border-radius: 50%;
 `;
-const Link = styled.div`
+const Title = styled.div`
   font-size: 16px;
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.9);

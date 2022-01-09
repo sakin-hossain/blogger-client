@@ -10,7 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [image, setImage] = useState(null);
-    const { signInWithGoogle, registerUser, loginUser } = useAuth();
+    const { authError, registerUser, loginUser } = useAuth();
     const navigate = useNavigate();
 
     const checkedIsLogin = e => {
@@ -26,7 +26,7 @@ const Login = () => {
         loginUser(email, password, navigate);
         registerUser(email, password, name, navigate);
 
-        fetch('http://localhost:5000/users',{
+        fetch('https://serene-garden-66797.herokuapp.com/users',{
             method: 'POST',
             body: formData
         })
@@ -71,6 +71,7 @@ const Login = () => {
                         isRegistered && 
                         <label htmlFor="contained-button-file">
                             <InputPhoto accept="image/*" id="contained-button-file" 
+                            required
                             onChange={(e)=> setImage(e.target.files[0])}
                             type="file" />
                             <Button sx={{width: "100%", margin:"10px 0", color:"black", border:"1.5px solid rgba(0,0,0,0.6)"}}
@@ -85,10 +86,9 @@ const Login = () => {
                         isRegistered ? <input style={AuthButton} value="Register" type="submit" /> : <input style={AuthButton} value="Login" type="submit" />
                     }
                 </form>
-                    <Google onClick={signInWithGoogle}>
-                        <img src="/images/google.svg" alt="google icon" />
-                        Sign in with Google
-                    </Google>
+                {
+                    authError && <p>{authError}</p>
+                }
                 </Form>
             </Section>
         </Container>

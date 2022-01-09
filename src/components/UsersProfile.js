@@ -3,6 +3,8 @@ import ThumbUpRoundedIcon from '@mui/icons-material/ThumbUpRounded';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useUser from '../hooks/useUser';
+import Comment from './Comment';
+import CommentShow from './CommentShow';
 import Header from './Header';
 import { Article, Description, SharedActor, SocialAction, SocialCount } from './Main';
 import { Content, UserInfo } from './YourProfile';
@@ -15,7 +17,7 @@ const UsersProfile = () => {
     const matchUser = users.find(user => user._id === id);
     
     useEffect(()=>{
-        fetch('http://localhost:5000/posts')
+        fetch('https://serene-garden-66797.herokuapp.com/posts')
         .then(res => res.json())
         .then(data => setActiveUserPost(data.filter(post => post.email.toLowerCase().includes(matchUser.email))))
     }, [matchUser]);
@@ -70,6 +72,8 @@ const UsersProfile = () => {
                                     <span>Comment</span>
                                 </button>
                             </SocialAction>
+                            <Comment id={post._id}/>
+                            <CommentShow comments={post.comments}/>
                         </Article>
                         ) :
                         <h1>No Post</h1>

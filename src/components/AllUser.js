@@ -9,7 +9,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import useAuth from '../hooks/useAuth';
+import Header from './Header';
 
 
 const AllUser = () => {
@@ -23,7 +25,7 @@ const AllUser = () => {
     const [isChange, setIsChange] = useState(1);
     useEffect(()=>{
         setIsLoading(true);
-        fetch(`http://localhost:5000/users?page=${page}&&size=${size}`)
+        fetch(`https://serene-garden-66797.herokuapp.com/users?page=${page}&&size=${size}`)
         .then(res=> res.json())
         .then(data => {
             setUsers(data.result)
@@ -112,61 +114,81 @@ const AllUser = () => {
     }
     return (
         <div>
-            <input type="text" onChange={handleSearchChange} placeholder='Search by Name, Email'  />
-            <button onClick={handleNameAesOrder}>Sort Name in ASC order</button>
-            <button onClick={handleNameDesOrder}>Sort Name in DSC order</button>
-            <button onClick={handleEmailAesOrder}>Sort Email in ASC order</button>
-            <button onClick={handleEmailDesOrder}>Sort Email in DSC order</button>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 400 }}>
-                    <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Websites</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            isLoading &&
-                            <TableRow>
-                                <TableCell>
-                                    <Box sx={{ display: 'flex' }}>
-                                        <CircularProgress />
-                                    </Box>
-                                </TableCell>
-                            </TableRow>
-                        }
-                    {displayUsers.map((row) => (
-                        <TableRow
-                        key={row._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                        <TableCell component="th" scope="row">
-                            {row.name}
-                        </TableCell>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>
-                            <Link to={`/users/${row._id}`}>View Profile</Link>
-                        </TableCell>
+            <Header/>
+            <Content>
+                <input type="text" onChange={handleSearchChange} placeholder='Search by Name, Email'  />
+                <button onClick={handleNameAesOrder}>Sort Name in ASC order</button>
+                <button onClick={handleNameDesOrder}>Sort Name in DSC order</button>
+                <button onClick={handleEmailAesOrder}>Sort Email in ASC order</button>
+                <button onClick={handleEmailDesOrder}>Sort Email in DSC order</button>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 400 }}>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Websites</TableCell>
                         </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <input type="number" onChange={(e) => setSize(e.target.value)} placeholder='User per page'/>
-            <div>
-                    {
-                        [...Array(pageCount).keys()].map(number => 
-                            <button
-                            key={number}
-                            onClick={()=>setPage(number)}
-                            >{number}</button>
-                            )
-                    }
-            </div>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                isLoading &&
+                                <TableRow>
+                                    <TableCell>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <CircularProgress />
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            }
+                        {displayUsers.map((row) => (
+                            <TableRow
+                            key={row._id}
+                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                            <TableCell component="th" scope="row">
+                                {row.name}
+                            </TableCell>
+                            <TableCell>{row.email}</TableCell>
+                            <TableCell>
+                                <Link to={`/users/${row._id}`}>View Profile</Link>
+                            </TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <input type="number" onChange={(e) => setSize(e.target.value)} placeholder='User per page'/>
+                <div>
+                        {
+                            [...Array(pageCount).keys()].map(number => 
+                                <button
+                                key={number}
+                                onClick={()=>setPage(number)}
+                                >{number}</button>
+                                )
+                        }
+                </div>
+            </Content>
         </div>
     );
 };
+const Content = styled.div`
+    position: relative;
+    top: 70px;
+    text-align: center;
+    input, button{
+        padding: 10px 24px;
+        border-radius: 4px;
+        border: 1.5px solid rgba(0,0,0,0.5);
+        margin: 10px;
+        font-weight: 600;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+        font-weight: 700;
+    }
+`;
 
 export default AllUser;

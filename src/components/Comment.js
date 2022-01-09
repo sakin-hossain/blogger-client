@@ -23,8 +23,11 @@ const Comment = ({id}) => {
             comment: comment,
             date: new Date()
         }
-        axios.put(`http://localhost:5000/post/${id}`, comments)
-        .then(res => console.log(res))
+        axios.put(`https://serene-garden-66797.herokuapp.com/post/${id}`, comments)
+        .then(res => {
+            if (res.data.modifiedCount) {
+                alert("Comment added successfully");
+            }})
     }
     return (
         <Container>

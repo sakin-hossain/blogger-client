@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import usePosts from '../hooks/usePosts';
+import useUser from '../hooks/useUser';
 
 const PostCard = () => {
     const [post, setPost] = useState('');
     const [title, setTitle] = useState('');
     const { handlePost } = usePosts();
+    const { activeUser } = useUser();
     const handlePostChange = (post, title) => {
         if(post === '' || title === ''){
             alert('Please Write Something');
@@ -19,8 +21,8 @@ const PostCard = () => {
         <CommonCard>
             <SharedContent>
                 <UserInfo>
-                    <img src="/images/user.png" alt="" />
-                    <span>Name</span>
+                    <img src={`data:image/png;base64,${activeUser?.image}`} alt="" />
+                    <span>{activeUser?.name}</span>
                 </UserInfo>
                 <Post>
                     <input
@@ -63,6 +65,7 @@ const UserInfo = styled.div`
     img{
         width: 48px;
         height: 48px;
+        border-radius: 50%;
         background-clip: content-box;
     }
     span{

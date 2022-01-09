@@ -47,7 +47,7 @@ const Main = () => {
                                     <CommentRoundedIcon color="action"
                                     fontSize="small"
                                     />
-                                    <span>1</span>
+                                    <span>{post.comments.length}</span>
                                 </button>
                             </li>
                         </SocialCount>
